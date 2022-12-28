@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row" style="margin-top: 10px;">
+            <div class="col-5">
+                <img src="{{ city.image.url }}" class="img-fluid">
+            </div>
+            <div class="col">
+                <div class="jumbotron">
+                    <h1 class="display-4">{{ city.name }}</h1>
+                    <h5 class="card-title">{{ city.country.name }} <i class="{{ city.country.flag_css }}"></i></h5>
+                    <hr class="my-4">
+                    <p>{{ city.description }}</p>
+                </div>
+            </div>
+        </div>
+        <hr>
+        
+        {% for comment in comments %}
+        <div class="comment">
+            <div class="date"> {{ comment.created_date }} </div>
+            <strong>{{ comment.user }}</strong>
+            <p>{{ comment.text }}</p>
+        </div>
+        {% endfor %}
+        <div class="container">
+            <h2>Leave your comments</h2>
+            <form action="{% url 'create_new_comment' id=city.id%}" method="POST" class="post-form">
+                {% csrf_token %}
+                
+                {{ form }}
+
+                <button type="submit" class="save btn btn-dark">Save</button>
+            </form>
+        </div>
+
+        
+    </div>
+{% endblock %}
